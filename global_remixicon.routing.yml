@@ -1,0 +1,7 @@
+entity.remixicon.collection:
+  path: '/mi-backoffice/config/custom/remixicons'
+  defaults:
+    _controller: '\Drupal\global_remixicon\Controller\RemixIconController::redirectToView'
+    _title: "Configuration des RemixIcons"
+  requirements:
+    _permission: 'access toolbar'

@@ -1,0 +1,17 @@
+uuid: d5a8ceb2-1b9b-471e-9e5f-00329c200b4b
+langcode: fr
+status: true
+dependencies:
+  module:
+    - content_translation
+    - global_remixicon
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '1'
+id: remixicon.remixicon
+target_entity_type_id: remixicon
+target_bundle: remixicon
+default_langcode: fr
+language_alterable: true

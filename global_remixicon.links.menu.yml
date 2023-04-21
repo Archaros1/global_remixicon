@@ -1,0 +1,5 @@
+entity.remixicon.collection:
+  title: 'Liste des RemixIcons'
+  description: 'RemixIcons'
+  route_name: view.remixicons.page_1
+  parent: system.admin_config_content

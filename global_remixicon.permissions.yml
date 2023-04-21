@@ -1,0 +1,11 @@
+administer remixicon:
+  title: 'Administer remixicon settings'
+  restrict access: true
+delete remixicon:
+  title: Delete remixicon
+create remixicon:
+  title: Create remixicon
+view remixicon:
+  title: View remixicon
+edit remixicon:
+  title: Edit remixicon

@@ -1,0 +1,65 @@
+<?php
+
+use Drupal\editor\Entity\Editor;
+
+/**
+ * Implements hook_form_alter().
+ */
+function global_remixicon_form_alter(&$form, $form_state, $form_id) {
+  $iconEntities = \Drupal::entityTypeManager()->getStorage('remixicon')->loadByProperties([
+    'status' => 1,
+  ]);
+  $remixIcons = [];
+  foreach ($iconEntities as $entity) {
+    $defaultLanguage = \Drupal::languageManager()->getDefaultLanguage()->getId();
+    $currentLanguage = \Drupal::languageManager()->getCurrentLanguage()->getId();
+    $labelLanguage = $defaultLanguage === $currentLanguage ? 'x-default' : $currentLanguage;
+    $label = $entity->hasTranslation($labelLanguage) && !empty($entity->getTranslation($labelLanguage)->get('label')->getValue()) ? $entity->getTranslation($labelLanguage)->get('label')->getValue()[0]['value'] : $entity->label();
+    $remixIcons[$label] = $entity->get('class')->getValue()[0]['value'];
+  }
+  ksort($remixIcons);
+  $form['#attached']['drupalSettings']['global_remixicon']['remixIconList'] = $remixIcons;
+  $form['#attached']['drupalSettings']['global_remixicon']['dsfrPath'] = \Drupal::service('extension.list.theme')->getPath('dsfr');
+  $form['#attached']['drupalSettings']['global_remixicon']['modulePath'] = \Drupal::service('extension.list.module')->getPath('global_remixicon');
+  $form['#attached']['drupalSettings']['global_remixicon']['ckeditorPath'] = \Drupal::service('extension.list.module')->getPath('ckeditor');
+}
+
+/**
+* Implements hook_page_attachments_alter().
+*/
+function global_remixicon_page_attachments_alter(array &$attachments) {
+
+  $current_path = \Drupal::service('path.current')->getPath();
+  $adminPath = \Drupal::config('rename_admin_paths.settings')->get('admin_path_value');
+  if ($current_path === "/$adminPath/config/custom/remixicons") {
+    if (!in_array("dsfr/dsfr-global", $attachments['#attached']['library'])) {
+      $attachments['#attached']['library'][] = "dsfr/dsfr-global";
+    }
+  }
+}
+
+/**
+ * Implements hook_editor_js_settings_alter().
+ *
+ */
+function global_remixicon_editor_js_settings_alter(array &$settings) {
+
+  // Attach the list of allowed empty tags.
+  $settings['editor']['global_remixicon']['allowedEmptyTags'] = ['span'];
+}
+
+/**
+* Implements hook_ckeditor_css_alter().
+*/
+function global_remixicon_ckeditor_css_alter(array &$css, Editor $editor) {
+
+  $dsfrPath = \Drupal::service('extension.list.theme')->getPath('dsfr');
+
+  if (!in_array("/$dsfrPath/assets/dsfr/dsfr.min.css", $css)) {
+    array_push($css, "/$dsfrPath/assets/dsfr/dsfr.min.css");
+  }
+  if (!in_array("/$dsfrPath/assets/dsfr/utility/utility.main.min.css", $css)) {
+    array_push($css, "/$dsfrPath/assets/dsfr/utility/utility.main.min.css");
+  }
+  // dd("/$dsfrPath/assets/dsfr/dsfr.min.css");
+}

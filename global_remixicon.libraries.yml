@@ -1,0 +1,9 @@
+global_remixicon:
+  version: VERSION
+  css:
+    theme:
+      'https://cdn.jsdelivr.net/npm/remixicon@2.2.0/fonts/remixicon.css': { type: external }
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/drupalSettings

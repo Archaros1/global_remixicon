@@ -1,0 +1,5 @@
+remixicon.add_form:
+  title: 'Add remixicon'
+  route_name: entity.remixicon.add_form
+  appears_on:
+    - view.remixicons.page_1
